@@ -1,0 +1,9 @@
+- hosts: web
+  become: yes
+  tasks:
+    - name: Stop old container
+      shell: docker rm -f fastapi || true
+
+    - name: Run new container
+      shell: docker run -d --name fastapi -p 80:8000 {{ image }}
+
