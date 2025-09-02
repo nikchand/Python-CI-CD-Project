@@ -1,9 +1,12 @@
-- hosts: web
-  become: yes
+- name: Deploy FastAPI CRUD App on EC2
+  hosts: all
+  become: true
   tasks:
-    - name: Stop old container
-      shell: docker rm -f fastapi || true
-
-    - name: Run new container
-      shell: docker run -d --name fastapi -p 80:8000 {{ image }}
-
+    - name: Run FastAPI container
+      docker_container:
+        name: fastapi-app
+        image: nikchand/fastapi-crud:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "8000:8000"
